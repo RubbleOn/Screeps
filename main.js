@@ -1,24 +1,24 @@
 require('prototype.spawn')();
-var roleHarvester = require('role.harvester');
-var roleUpgrader = require('role.upgrader');
-var roleBuilder = require('role.builder');
-var roleWallBuilder = require('role.wallBuilder');
-var roleJanitor = require('role.janitor');
-var roleMiner = require('role.miner');
-var roleHauler = require('role.hauler');
-var roleClaimer = require('role.claimer');
-var roleLongDistanceHarvester = require('role.longDistanceHarvester');
-var roleRemoteBuilder = require('role.remoteBuilder');
-var roleMineralMiner = require('role.mineralMiner');
-var roleMineralHauler = require('role.mineralHauler');
+const roleHarvester = require('role.harvester');
+const roleUpgrader = require('role.upgrader');
+const roleBuilder = require('role.builder');
+const roleWallBuilder = require('role.wallBuilder');
+const roleJanitor = require('role.janitor');
+const roleMiner = require('role.miner');
+const roleHauler = require('role.hauler');
+const roleClaimer = require('role.claimer');
+const roleLongDistanceHarvester = require('role.longDistanceHarvester');
+const roleRemoteBuilder = require('role.remoteBuilder');
+const roleMineralMiner = require('role.mineralMiner');
+const roleMineralHauler = require('role.mineralHauler');
 
 
 
 module.exports.loop = function () {
     // Spawn Rooms
-    var SPAWN1 = 'W8N3';
-    var SPAWN2 = 'W7N3';
-    var SPAWN3 = 'W6N1';
+    let SPAWN1 = 'W8N3';
+    let SPAWN2 = 'W7N3';
+    let SPAWN3 = 'W6N1';
 
     // check memory for dead creeps and clear them out
     for (let name in Memory.creeps) {
@@ -29,7 +29,7 @@ module.exports.loop = function () {
     }
 
     for (let name in Game.creeps) {
-        var creep = Game.creeps[name];
+        let creep = Game.creeps[name];
         
         if (creep.memory.role == 'harvester') {
             roleHarvester.run(creep);
@@ -69,11 +69,11 @@ module.exports.loop = function () {
         }
     }
 
-    var towers = _.filter(Game.structures, s => s.structureType == STRUCTURE_TOWER);
+    let towers = _.filter(Game.structures, s => s.structureType == STRUCTURE_TOWER);
     for (let tower of towers) {
-        var target = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
+        let target = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
         if (target != undefined) {
-            var username = target.owner.username;
+            let username = target.owner.username;
             tower.attack(target);
             Game.notify('User ${username} spotted in room ${roomName}');
         }
@@ -97,19 +97,19 @@ module.exports.loop = function () {
         let creepsInRoom = spawn.room.find(FIND_MY_CREEPS);
 
         //count the number of creeps alive for each role
-        var numberOfHarvesters = _.sum(creepsInRoom, (c) => c.memory.role == 'harvester');
-        var numberOfUpgraders = _.sum(creepsInRoom, (c) => c.memory.role == 'upgrader');
-        var numberOfBuilders = _.sum(creepsInRoom, (c) => c.memory.role == 'builder');
-        var numberOfWallBuilders = _.sum(creepsInRoom, (c) => c.memory.role == 'wallBuilder');
-        var numberOfJanitors = _.sum(creepsInRoom, (c) => c.memory.role == 'janitor');
-        var numberOfMiners = _.sum(creepsInRoom, (c) => c.memory.role == 'miner');
-        var numberOfHaulers = _.sum(creepsInRoom, (c) => c.memory.role == 'hauler');
-        var numberOfLongDistanceHarvesters = _.sum(Game.creeps, (c) => c.memory.role == 'longDistanceHarvester' && c.memory.home == spawn.room.name);
-        var numberOfMineralMiners = _.sum(creepsInRoom, (c) => c.memory.role == 'mineralMiner');
-        var numberOfMineralHaulers = _.sum(creepsInRoom, (c) => c.memory.role == 'mineralHauler');
+        let numberOfHarvesters = _.sum(creepsInRoom, (c) => c.memory.role == 'harvester');
+        let numberOfUpgraders = _.sum(creepsInRoom, (c) => c.memory.role == 'upgrader');
+        let numberOfBuilders = _.sum(creepsInRoom, (c) => c.memory.role == 'builder');
+        let numberOfWallBuilders = _.sum(creepsInRoom, (c) => c.memory.role == 'wallBuilder');
+        let numberOfJanitors = _.sum(creepsInRoom, (c) => c.memory.role == 'janitor');
+        let numberOfMiners = _.sum(creepsInRoom, (c) => c.memory.role == 'miner');
+        let numberOfHaulers = _.sum(creepsInRoom, (c) => c.memory.role == 'hauler');
+        let numberOfLongDistanceHarvesters = _.sum(Game.creeps, (c) => c.memory.role == 'longDistanceHarvester' && c.memory.home == spawn.room.name);
+        let numberOfMineralMiners = _.sum(creepsInRoom, (c) => c.memory.role == 'mineralMiner');
+        let numberOfMineralHaulers = _.sum(creepsInRoom, (c) => c.memory.role == 'mineralHauler');
 
-        var energy = spawn.room.energyCapacityAvailable;
-        var name = undefined;
+        let energy = spawn.room.energyCapacityAvailable;
+        let name = undefined;
 
         if (numberOfHarvesters == 0 && (numberOfMiners == 0 || numberOfHaulers == 0)) {
             if (numberOfMiners > 0) {
@@ -248,4 +248,4 @@ module.exports.loop = function () {
             console.log('Mineral Hauler  : ' + numberOfMineralHaulers + ' of ' + spawn.memory.minMineralHauler);
         }
     }
-}
+};
