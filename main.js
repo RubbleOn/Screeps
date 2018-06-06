@@ -28,6 +28,7 @@ module.exports.loop = function () {
         }
     }
 
+    //Loops through all creeps and execute their role for 1 turn
     for (let name in Game.creeps) {
         let creep = Game.creeps[name];
         
@@ -69,6 +70,7 @@ module.exports.loop = function () {
         }
     }
 
+    //Loops through all towers and attack any enemy targets
     let towers = _.filter(Game.structures, s => s.structureType == STRUCTURE_TOWER);
     for (let tower of towers) {
         let target = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
@@ -111,6 +113,7 @@ module.exports.loop = function () {
         let energy = spawn.room.energyCapacityAvailable;
         let name = undefined;
 
+        //If there are miners but no haulers, create a hauler to get energy back to storage.  Otherwise spawn a harvester because all miners and haulers are dead
         if (numberOfHarvesters == 0 && (numberOfMiners == 0 || numberOfHaulers == 0)) {
             if (numberOfMiners > 0) {
                 name = spawn.createHauler(150);
@@ -119,6 +122,7 @@ module.exports.loop = function () {
                 name = spawn.createCustomCreep(spawn.room.energyAvailable, 'harvester');
             }
         }
+        //If a miner has died, replace it
         else {
             let sources = spawn.room.find(FIND_SOURCES);
             for (let source of sources) {
@@ -134,6 +138,7 @@ module.exports.loop = function () {
             }
         }
         
+        //If any creep role is below the minimum value, create a creep of the approriate role
         if (name == undefined) {
             if (numberOfHarvesters < spawn.memory.minHarvester) {
                 name = spawn.createCustomCreep(300, 'harvester');
@@ -234,6 +239,7 @@ module.exports.loop = function () {
             //console.log(spawn + ' is trying to spawn: ' + name);
         }
 
+        //Output number of creeps every time a new creep is spawned
         if (!(name < 0)) {
             console.log(spawn.name + ' spawned new creep: ' + name + ' (' + Game.creeps[name].memory.role + ')');
             console.log('Harvesters     : ' + numberOfHarvesters + ' of ' + spawn.memory.minHarvester);

@@ -22,7 +22,7 @@ module.exports = {
             }
         }
         else {
-            var dropenergy = creep.pos.findClosestByPath(FIND_DROPPED_ENERGY);
+            var dropenergy = creep.pos.findClosestByPath(FIND_DROPPED_RESOURCES);
             if (dropenergy) {
                 if (creep.pickup(dropenergy) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(dropenergy);
@@ -49,7 +49,7 @@ module.exports = {
                     if (targets.length > 0) {
                         for (let x in targets) {
                             if (targets[x].energy > 10) {
-                                if (targets[x].transferEnergy(creep) == ERR_NOT_IN_RANGE) {
+                                if (creep.withdraw(targets[x], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                                     creep.moveTo(targets[x]);
                                 }
                             }
